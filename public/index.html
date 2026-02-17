@@ -1,37 +1,98 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jenga 3D</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Jenga Multiplayer</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div id="ui">
-    <h1>🧱 JENGA 3D</h1>
-    <div id="info-panel">
-      <p>Score: <span id="score">0</span></p>
-      <p>Removed: <span id="removed">0</span></p>
-      <p id="status">Click a block to pull it out!</p>
-    </div>
-    <button id="reset-btn">🔄 New Game</button>
-    <div id="controls-info">
-      <p>🖱️ Left click — pull block</p>
-      <p>🖱️ Right drag — rotate camera</p>
-      <p>🖱️ Scroll — zoom</p>
-    </div>
-  </div>
-  <div id="game-over" style="display:none;">
-    <div class="game-over-content">
-      <h2>💥 Tower Collapsed!</h2>
-      <p>Your score: <span id="final-score">0</span></p>
-      <button id="restart-btn">Play Again</button>
-    </div>
-  </div>
-  <canvas id="gameCanvas"></canvas>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
+  <!-- ===== MENU SCREEN ===== -->
+  <div id="menu-screen" class="screen active">
+    <div class="menu-box">
+      <h1>🧱 JENGA</h1>
+      <h2>Multiplayer</h2>
+
+      <div class="input-group">
+        <label>Your Name</label>
+        <input type="text" id="player-name" placeholder="Enter name..." maxlength="15"/>
+      </div>
+
+      <button id="btn-create" class="btn btn-primary">Create Room</button>
+
+      <div class="divider"><span>or</span></div>
+
+      <div class="input-group">
+        <label>Room Code</label>
+        <input type="text" id="room-code-input" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;"/>
+      </div>
+
+      <button id="btn-join" class="btn btn-secondary">Join Room</button>
+
+      <p id="menu-error" class="error-msg"></p>
+    </div>
+  </div>
+
+  <!-- ===== WAITING SCREEN ===== -->
+  <div id="waiting-screen" class="screen">
+    <div class="menu-box">
+      <h2>⏳ Waiting for opponent...</h2>
+      <div class="room-code-display">
+        <p>Room Code:</p>
+        <h1 id="display-room-code">----</h1>
+        <p class="hint">Share this code with your friend!</p>
+      </div>
+      <div class="loader"></div>
+    </div>
+  </div>
+
+  <!-- ===== GAME SCREEN ===== -->
+  <div id="game-screen" class="screen">
+
+    <!-- Top bar -->
+    <div id="top-bar">
+      <div class="player-info" id="player1-info">
+        <div class="player-dot p1-dot"></div>
+        <span class="p-name" id="p1-name">Player 1</span>
+        <span class="p-score" id="p1-score">0</span>
+      </div>
+
+      <div id="turn-indicator">
+        <span id="turn-text">Waiting...</span>
+      </div>
+
+      <div class="player-info" id="player2-info">
+        <span class="p-score" id="p2-score">0</span>
+        <span class="p-name" id="p2-name">Player 2</span>
+        <div class="player-dot p2-dot"></div>
+      </div>
+    </div>
+
+    <!-- Tower area -->
+    <div id="tower-container"></div>
+
+    <!-- Status bar -->
+    <div id="bottom-bar">
+      <span id="status-msg">Click a block to remove it!</span>
+      <button id="btn-leave" class="btn btn-small">Leave</button>
+    </div>
+  </div>
+
+  <!-- ===== GAME OVER POPUP ===== -->
+  <div id="gameover-popup" class="popup" style="display:none;">
+    <div class="popup-content">
+      <h2 id="gameover-title">💥 Tower Collapsed!</h2>
+      <p id="gameover-msg">Result</p>
+      <div id="gameover-scores"></div>
+      <button id="btn-restart" class="btn btn-primary">Play Again</button>
+      <button id="btn-back-menu" class="btn btn-secondary">Back to Menu</button>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATION ===== -->
+  <div id="notification" class="notification" style="display:none;"></div>
+
   <script src="game.js"></script>
 </body>
 </html>
