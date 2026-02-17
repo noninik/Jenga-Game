@@ -1,0 +1,12 @@
+{
+  "name": "jenga-game",
+  "version": "1.0.0",
+  "description": "3D Jenga game with Three.js and Cannon.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
